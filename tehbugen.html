@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teh Bugenvil - Teh Bunga Bugenvil</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #FF6B8B;
+            --secondary-sakura: #FFB7C5;
+            --light-gradient: linear-gradient(135deg, #FF6B8B 0%, #FFB7C5 100%);
+            --dark-gradient: linear-gradient(135deg, #E05570 0%, #FF9EB5 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF5F7;
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+            background-image: url('https://www.transparenttextures.com/patterns/sakura.png');
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 8px solid transparent;
+            background: linear-gradient(135deg, #FF6B8B, #FFB7C5) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1000;
+            animation: borderAnimation 8s linear infinite;
+        }
+        
+        @keyframes borderAnimation {
+            0% { border-image: linear-gradient(0deg, #FF6B8B, #FFB7C5) 1; }
+            25% { border-image: linear-gradient(90deg, #FF6B8B, #FFB7C5) 1; }
+            50% { border-image: linear-gradient(180deg, #FF6B8B, #FFB7C5) 1; }
+            75% { border-image: linear-gradient(270deg, #FF6B8B, #FFB7C5) 1; }
+            100% { border-image: linear-gradient(360deg, #FF6B8B, #FFB7C5) 1; }
+        }
+        
+        .navbar {
+            background: var(--light-gradient) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin: 8px;
+            width: calc(100% - 16px);
+            border-radius: 8px;
+        }
+        
+        .navbar.scrolled {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        
+        .hero-section {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            margin: 8px;
+            border-radius: 8px;
+            animation: sectionEntrance 1s ease-out;
+        }
+        
+        @keyframes sectionEntrance {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .article-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            overflow: hidden;
+            background: white;
+            margin: 8px;
+            animation: cardEntrance 0.6s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+        }
+        
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .article-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .article-img {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .article-card:hover .article-img {
+            transform: scale(1.05);
+        }
+        
+        .badge-custom {
+            background: var(--light-gradient);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .feature-box {
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: all 0.3s;
+            border-top: 4px solid var(--primary-pink);
+            animation: featureEntrance 0.8s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper-2.png');
+        }
+        
+        @keyframes featureEntrance {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top-color: var(--secondary-sakura);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.3s;
+        }
+        
+        .feature-box:hover .feature-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        footer {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 50px 0 20px;
+            margin: 8px;
+            border-radius: 8px;
+            animation: footerEntrance 1s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+        }
+        
+        @keyframes footerEntrance {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: white;
+            color: var(--primary-pink);
+            transform: translateY(-3px) rotate(10deg);
+        }
+        
+        .highlight-text {
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+        
+        .btn-custom {
+            background: var(--light-gradient);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-custom:hover {
+            background: var(--dark-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-custom::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+            opacity: 0;
+        }
+        
+        .btn-custom:hover::after {
+            animation: waterFlow 1s linear;
+            opacity: 1;
+        }
+        
+        .water-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            animation: waterFlow 6s linear infinite;
+        }
+        
+        @keyframes waterFlow {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+        
+        .compact-form {
+            position: fixed;
+            bottom: -300px;
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.4s ease;
+            margin: 8px;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper-2.png');
+        }
+        
+        .compact-form.active {
+            bottom: 0;
+        }
+        
+        .form-header {
+            background: var(--light-gradient);
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .form-body {
+            padding: 20px;
+        }
+        
+        .form-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+        }
+        
+        .form-toggle-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        
+        .form-toggle-btn i {
+            transition: all 0.3s;
+        }
+        
+        .form-toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .petal {
+            position: absolute;
+            background-image: url('https://www.freepnglogos.com/uploads/sakura-png/sakura-png-transparent-sakura-images-pluspng-15.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.7;
+        }
+        
+        .progress-container {
+            width: calc(100% - 16px);
+            height: 5px;
+            background: transparent;
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            z-index: 999;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: var(--light-gradient);
+            width: 0%;
+            transition: width 0.1s;
+            border-radius: 5px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+            bottom: 90px;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-next-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+        }
+        
+        .nav-next-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        
+        section {
+            margin: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: sectionEntrance 0.8s ease-out;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-icon {
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .tea-preparation {
+            border-left: 4px solid var(--primary-pink);
+            padding-left: 20px;
+            margin: 20px 0;
+            background-color: rgba(255, 182, 193, 0.1);
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div class="form-toggle-btn" id="formToggleBtn">
+        <i class="fas fa-comment-alt"></i>
+    </div>
+    
+    <div class="compact-form" id="compactForm">
+        <div class="form-header" id="formHeader">
+            <h5 class="mb-0">Hubungi Kami</h5>
+            <i class="fas fa-minus"></i>
+        </div>
+        <div class="form-body">
+            <form id="contactForm">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email Anda" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" rows="3" placeholder="Pesan Anda" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Kirim Pesan</button>
+            </form>
+        </div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-leaf me-2"></i>Teh Bugenvil
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#manfaat">Manfaat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pembuatan">Cara Pembuatan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#bisnis">Peluang Bisnis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontak">Kontak</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section water-effect">
+        <div id="petals-container"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold mb-4">Teh Bugenvil</h1>
+                    <p class="lead mb-4">Teh bunga bugenvil premium dengan segudang manfaat kesehatan dan keindahan rasa yang memikat.</p>
+                    <a href="#tentang" class="btn btn-custom btn-lg me-3">Pelajari Lebih Lanjut</a>
+                    <a href="#kontak" class="btn btn-outline-light btn-lg">Pesan Sekarang</a>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Teh Bunga Bugenvil" class="img-fluid rounded-4 shadow floating" style="animation-delay: 0.5s;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" id="tentang">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="article-card" data-aos="fade-up">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge badge-custom py-2 px-3">Produk Inovatif</span>
+                                <small class="text-muted"><i class="far fa-calendar-alt me-1"></i>21 April 2025</small>
+                            </div>
+                            
+                            <h2 class="card-title mb-3">Teh Bugenvil: Teh Bunga Bugenvil dengan Segudang Manfaat</h2>
+                            
+                            <div class="article-content">
+                                <p class="lead">Teh Bugenvil merupakan inovasi menarik yang memanfaatkan keindahan bunga bugenvil dari segi manfaat kesehatan. Teh bunga bugenvil tidak hanya indah dipandang tetapi juga memiliki khasiat luar biasa bagi tubuh.</p>
+                                
+
+                                <h4 class="mt-5 mb-3 highlight-text" id="manfaat">Manfaat Kesehatan</h4>
+                                <p>Teh bunga bugenvil memiliki berbagai manfaat kesehatan yang telah dikenal secara turun-temurun:</p>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-heartbeat"></i>
+                                            </div>
+                                            <h4>Kesehatan Pencernaan</h4>
+                                            <p>Meredakan sakit perut dan asam lambung, membantu mengatasi masalah pencernaan secara alami.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-lungs"></i>
+                                            </div>
+                                            <h4>Kesehatan Pernapasan</h4>
+                                            <p>Mengatasi batuk, sakit tenggorokan, dan bronkitis dengan kandungan alaminya yang menenangkan.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-prescription-bottle-alt"></i>
+                                            </div>
+                                            <h4>Penyakit Kronis</h4>
+                                            <p>Membantu mengatasi diabetes dan hepatitis, serta menjaga keseimbangan kolesterol dan gula darah.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-spa"></i>
+                                            </div>
+                                            <h4>Relaksasi</h4>
+                                            <p>Memberikan efek menenangkan dan relaksasi setelah seharian beraktivitas.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="mt-5 mb-3 highlight-text" id="pembuatan">Cara Pembuatan</h4>
+                                <p>Pembuatan teh bunga bugenvil tergolong mudah dan cepat. Berikut dua metode pembuatannya:</p>
+                                
+                                <div class="tea-preparation" data-aos="fade-right">
+                                    <h5><i class="fas fa-mug-hot me-2" style="color: var(--primary-pink);"></i>Metode Segar</h5>
+                                    <ol>
+                                        <li>Rebus air sampai mendidih</li>
+                                        <li>Masukkan bunga bugenvil segar</li>
+                                        <li>Aduk sesekali hingga warnanya keluar kemerahan pekat</li>
+                                        <li>Angkat dan tuangkan ke gelas</li>
+                                        <li>Tambahkan madu atau gula secukupnya dan aduk rata</li>
+                                    </ol>
+                                </div>
+                                
+                                <div class="tea-preparation" data-aos="fade-left">
+                                    <h5><i class="fas fa-leaf me-2" style="color: var(--primary-pink);"></i>Metode Kering (Teh Celup)</h5>
+                                    <ol>
+                                        <li>Cuci bunga bugenvil sampai bersih</li>
+                                        <li>Iris bunga sampai tipis dan kecil</li>
+                                        <li>Keringkan di bawah sinar matahari</li>
+                                        <li>Campurkan dengan kulit lemon yang sudah dikeringkan</li>
+                                        <li>Masukkan ke kemasan kertas untuk teh celup</li>
+                                        <li>Tuangkan air hangat dan celupkan teh</li>
+                                        <li>Tambahkan madu atau gula setelah warna kemerahan keluar</li>
+                                    </ol>
+                                </div>
+                                
+                                <div class="alert alert-pink mt-5" style="background-color: #FFF0F5; border-left: 4px solid var(--primary-pink);" data-aos="fade-up">
+                                    <h5 class="alert-heading"><i class="fas fa-lightbulb me-2" style="color: var(--primary-pink);"></i>Tips Penyajian</h5>
+                                    <p>Untuk rasa terbaik, gunakan bunga bugenvil segar yang baru dipetik di pagi hari. Tambahkan irisan lemon atau jahe untuk variasi rasa dan manfaat tambahan.</p>
+                                </div>
+                                
+                                <h4 class="mt-5 mb-3 highlight-text" id="bisnis">Peluang Bisnis</h4>
+                                <p>Produk teh bunga bugenvil memiliki potensi bisnis yang besar dengan keuntungan menarik:</p>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-4" data-aos="fade-up">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title highlight-text"><i class="fas fa-chart-line me-2"></i>Keuntungan</h5>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-coins"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Biaya Produksi Rendah</h6>
+                                                        <p class="text-muted">Bahan baku mudah didapat dengan harga terjangkau</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-users"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Pasar Luas</h6>
+                                                        <p class="text-muted">Dijual kepada pecinta teh, penggemar herbal, dan kesehatan</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-tags"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Harga Jual Premium</h6>
+                                                        <p class="text-muted">Dapat dijual dengan harga tinggi karena keunikannya</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title highlight-text"><i class="fas fa-boxes me-2"></i>Varian Produk</h5>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-wine-bottle"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Teh Celup</h6>
+                                                        <p class="text-muted">Kemasan praktis untuk konsumsi sehari-hari</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-gift"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Paket Premium</h6>
+                                                        <p class="text-muted">Kemasan eksklusif untuk hadiah atau oleh-oleh</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-blender"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Kombinasi Rasa</h6>
+                                                        <p class="text-muted">Campuran dengan lemon, jahe, atau madu</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="py-5 bg-light" id="kontak">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-5 fw-bold mb-3 highlight-text">Tertarik dengan SakuraTea?</h2>
+                    <p class="lead">Hubungi kami untuk pemesanan atau informasi lebih lanjut</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-lg-5">
+                            <form id="mainContactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Pesan</label>
+                                    <textarea class="form-control" id="message" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-custom w-100">Kirim Pesan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <a href="index.html" class="nav-next-btn" id="navNextBtn">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up">
+                    <h5 class="mb-4"><i class="fas fa-leaf me-2"></i>Teh Bugenvil</h5>
+                    <p>Teh bunga bugenvil premium dengan segudang manfaat kesehatan dan keindahan rasa yang memikat.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h5 class="mb-4">Tautan</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">Beranda</a></li>
+                        <li class="mb-2"><a href="#tentang" class="text-white">Tentang</a></li>
+                        <li class="mb-2"><a href="#manfaat" class="text-white">Manfaat</a></li>
+                        <li class="mb-2"><a href="#pembuatan" class="text-white">Pembuatan</a></li>
+                        <li class="mb-2"><a href="#bisnis" class="text-white">Bisnis</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h5 class="mb-4">Kontak Kami</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. RA Kartini</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (021) 1234-5678</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> CETAR@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <h5 class="mb-4">Media Sosial</h5>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/karasatech?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; CETAR</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Made with <i class="fas fa-heart text-danger"></i> for healthier life</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        window.onscroll = function() {scrollProgress()};
+        
+        function scrollProgress() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+            
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        }
+        
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        const formToggleBtn = document.getElementById('formToggleBtn');
+        const compactForm = document.getElementById('compactForm');
+        const formHeader = document.getElementById('formHeader');
+        
+        formToggleBtn.addEventListener('click', function() {
+            compactForm.classList.toggle('active');
+            formToggleBtn.classList.toggle('active');
+        });
+        
+        formHeader.addEventListener('click', function() {
+            compactForm.classList.remove('active');
+            formToggleBtn.classList.remove('active');
+        });
+        
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Terima kasih! Pesan Anda telah terkirim. Kami akan segera menghubungi Anda.');
+                this.reset();
+                
+                if (form.id === 'contactForm') {
+                    compactForm.classList.remove('active');
+                    formToggleBtn.classList.remove('active');
+                }
+            });
+        });
+        
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            const petalCount = 15;
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                const size = Math.random() * 30 + 20;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                const rotation = Math.random() * 360;
+                
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${posX}%`;
+                petal.style.top = `-${size}px`;
+                petal.style.opacity = Math.random() * 0.5 + 0.3;
+                petal.style.transform = `rotate(${rotation}deg)`;
+                petal.style.animation = `floating ${duration}s linear ${delay}s infinite`;
+                
+                container.appendChild(petal);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createPetals();
+            
+            const buttons = document.querySelectorAll('.btn, .social-icon, .feature-box');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

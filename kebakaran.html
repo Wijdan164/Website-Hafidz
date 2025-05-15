@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alat Pendeteksi Kebakaran</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #FF4D4D;
+            --secondary-orange: #FF8C42;
+            --light-gradient: linear-gradient(135deg, #FF4D4D 0%, #FF8C42 100%);
+            --dark-gradient: linear-gradient(135deg, #E04444 0%, #E67E3C 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF0F0;
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 8px solid transparent;
+            background: linear-gradient(135deg, #FF4D4D, #FF8C42) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1000;
+            animation: borderAnimation 8s linear infinite;
+        }
+        
+        @keyframes borderAnimation {
+            0% { border-image: linear-gradient(0deg, #FF4D4D, #FF8C42) 1; }
+            25% { border-image: linear-gradient(90deg, #FF4D4D, #FF8C42) 1; }
+            50% { border-image: linear-gradient(180deg, #FF4D4D, #FF8C42) 1; }
+            75% { border-image: linear-gradient(270deg, #FF4D4D, #FF8C42) 1; }
+            100% { border-image: linear-gradient(360deg, #FF4D4D, #FF8C42) 1; }
+        }
+        
+        .navbar {
+            background: var(--light-gradient) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin: 8px;
+            width: calc(100% - 16px);
+            border-radius: 8px;
+        }
+        
+        .navbar.scrolled {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        
+        .hero-section {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            margin: 8px;
+            border-radius: 8px;
+            animation: sectionEntrance 1s ease-out;
+        }
+        
+        @keyframes sectionEntrance {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1534996858221-380c9276c01c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .article-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            overflow: hidden;
+            background: white;
+            margin: 8px;
+            animation: cardEntrance 0.6s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+        
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .article-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .article-img {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .article-card:hover .article-img {
+            transform: scale(1.05);
+        }
+        
+        .badge-custom {
+            background: var(--light-gradient);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .feature-box {
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: all 0.3s;
+            border-top: 4px solid var(--primary-red);
+            animation: featureEntrance 0.8s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-geometric.png');
+        }
+        
+        @keyframes featureEntrance {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top-color: var(--secondary-orange);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.3s;
+        }
+        
+        .feature-box:hover .feature-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        footer {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 50px 0 20px;
+            margin: 8px;
+            border-radius: 8px;
+            animation: footerEntrance 1s ease-out;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+        
+        @keyframes footerEntrance {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: white;
+            color: var(--primary-red);
+            transform: translateY(-3px) rotate(10deg);
+        }
+        
+        .highlight-text {
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+        
+        .btn-custom {
+            background: var(--light-gradient);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-custom:hover {
+            background: var(--dark-gradient);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-custom::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+            opacity: 0;
+        }
+        
+        .btn-custom:hover::after {
+            animation: waterFlow 1s linear;
+            opacity: 1;
+        }
+        
+        .fire-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fire-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            animation: waterFlow 6s linear infinite;
+        }
+        
+        @keyframes waterFlow {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+        
+        .compact-form {
+            position: fixed;
+            bottom: -300px;
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.4s ease;
+            margin: 8px;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-geometric.png');
+        }
+        
+        .compact-form.active {
+            bottom: 0;
+        }
+        
+        .form-header {
+            background: var(--light-gradient);
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .form-body {
+            padding: 20px;
+        }
+        
+        .form-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+        }
+        
+        .form-toggle-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        
+        .form-toggle-btn i {
+            transition: all 0.3s;
+        }
+        
+        .form-toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .fire-particle {
+            position: absolute;
+            background: radial-gradient(circle, #FF8C42, #FF4D4D);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.7;
+        }
+        
+        .progress-container {
+            width: calc(100% - 16px);
+            height: 5px;
+            background: transparent;
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            z-index: 999;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: var(--light-gradient);
+            width: 0%;
+            transition: width 0.1s;
+            border-radius: 5px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+            bottom: 90px;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-next-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--light-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s;
+        }
+        
+        .nav-next-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        
+        section {
+            margin: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: sectionEntrance 0.8s ease-out;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-icon {
+            background: var(--light-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .system-detail {
+            border-left: 4px solid var(--primary-red);
+            padding-left: 20px;
+            margin: 20px 0;
+            background-color: rgba(255, 140, 66, 0.1);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .alert-emergency {
+            background-color: rgba(255, 77, 77, 0.1);
+            border-left: 4px solid var(--primary-red);
+            border-radius: 0 8px 8px 0;
+            animation: pulseAlert 2s infinite;
+        }
+        
+        @keyframes pulseAlert {
+            0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+        }
+        
+        .fire-animation {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .fire-animation .flame {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #FF8C42 0%, #FF4D4D 70%, transparent 100%);
+            border-radius: 50% 50% 20% 20%;
+            transform: rotate(180deg) scale(1.5,1.5);
+            filter: blur(10px);
+            animation: flicker 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { transform: rotate(180deg) scale(1.5,1.5); opacity: 1; }
+            50% { transform: rotate(180deg) scale(1.6,1.4); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div class="form-toggle-btn" id="formToggleBtn">
+        <i class="fas fa-comment-alt"></i>
+    </div>
+    
+    <div class="compact-form" id="compactForm">
+        <div class="form-header" id="formHeader">
+            <h5 class="mb-0">Hubungi Kami</h5>
+            <i class="fas fa-minus"></i>
+        </div>
+        <div class="form-body">
+            <form id="contactForm">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email Anda" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" rows="3" placeholder="Pesan Anda" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Kirim Pesan</button>
+            </form>
+        </div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-fire-extinguisher me-2"></i>Pendeteksi Kebakaran
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fitur">Fitur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cara-kerja">Cara Kerja</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pentingnya">Pentingnya</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontak">Kontak</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section fire-effect">
+        <div id="fire-particles-container"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold mb-4">Pendeteksi Kebakaran</h1>
+                    <p class="lead mb-4">Sistem pendeteksi kebakaran cerdas yang memberikan peringatan dini untuk melindungi rumah dan keluarga Anda.</p>
+                    <a href="#tentang" class="btn btn-custom btn-lg me-3">Pelajari Lebih Lanjut</a>
+                    <a href="#kontak" class="btn btn-outline-light btn-lg">Pesan Sekarang</a>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://i.pinimg.com/736x/fe/be/a7/febea740b1ddeeb0a5249ebb06001b50.jpg" alt="FireGuard Detector" class="img-fluid rounded-4 shadow floating" style="animation-delay: 0.5s;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" id="tentang">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="article-card" data-aos="fade-up">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge badge-custom py-2 px-3">Teknologi Keamanan</span>
+                                <small class="text-muted"><i class="far fa-calendar-alt me-1"></i>21 April 2025</small>
+                            </div>
+                            
+                            <h2 class="card-title mb-3">Pendeteksi Kebakaran: Sistem Pendeteksi Kebakaran Otomatis</h2>
+                            
+                            <div class="article-content">
+                                <p class="lead">Pendeteksi Kebakaran adalah alat pendeteksi kebakaran yang otomatis akan menyala dan mengeluarkan bunyi jika terdapat asap dan api di sekitarnya. Dengan deteksi dini, upaya pemadaman dapat segera dilakukan untuk mencegah bahaya kebakaran.</p>
+                                
+                                <div class="fire-animation my-5" data-aos="zoom-in">
+                                    <div class="flame"></div>
+                                </div>
+                                
+                                <h4 class="mt-5 mb-3 highlight-text" id="fitur">Fitur Utama</h4>
+                                <p>FireGuard dilengkapi dengan berbagai fitur canggih untuk perlindungan maksimal:</p>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-bell"></i>
+                                            </div>
+                                            <h4>Alarm Otomatis</h4>
+                                            <p>Bunyi alarm nyaring (85dB) yang aktif otomatis saat mendeteksi asap atau api.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                            <h4>Lampu Peringatan</h4>
+                                            <p>Lampu strobo merah menyala saat alarm berbunyi untuk peringatan visual.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-wifi"></i>
+                                            </div>
+                                            <h4>Konektivitas IoT</h4>
+                                            <p>Dapat terhubung ke smartphone untuk notifikasi jarak jauh.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                                        <div class="feature-box">
+                                            <div class="feature-icon">
+                                                <i class="fas fa-battery-full"></i>
+                                            </div>
+                                            <h4>Daya Tahan Baterai</h4>
+                                            <p>Baterai tahan hingga 3 tahun dengan indikator baterai lemah.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-emergency mt-5" role="alert" data-aos="fade-up">
+                                    <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Peringatan Darurat!</h5>
+                                    <p>FireGuard dapat mengurangi risiko kematian akibat kebakaran hingga 50% dengan memberikan peringatan dini.</p>
+                                </div>
+                                
+                                <h4 class="mt-5 mb-3 highlight-text" id="cara-kerja">Cara Kerja</h4>
+                                <p>FireGuard bekerja dengan sistem deteksi cerdas:</p>
+                                
+                                <div class="system-detail" data-aos="fade-right">
+                                    <h5><i class="fas fa-fire me-2" style="color: var(--primary-red);"></i>Deteksi Asap/API</h5>
+                                    <ol>
+                                        <li>Sensor optik mendeteksi partikel asap di udara</li>
+                                        <li>Sensor panas mendeteksi kenaikan suhu drastis</li>
+                                        <li>Sensor infrared mendeteksi nyala api</li>
+                                    </ol>
+                                </div>
+                                
+                                <div class="system-detail" data-aos="fade-left">
+                                    <h5><i class="fas fa-bell me-2" style="color: var(--primary-red);"></i>Sistem Peringatan</h5>
+                                    <ol>
+                                        <li>Alarm berbunyi dengan volume 85dB</li>
+                                        <li>Lampu strobo merah menyala</li>
+                                        <li>Notifikasi dikirim ke smartphone (jika terhubung)</li>
+                                        <li>Sistem terus bekerja hingga kondisi normal</li>
+                                    </ol>
+                                </div>
+                                
+                                <h4 class="mt-5 mb-3 highlight-text" id="pentingnya">Mengapa FireGuard Penting?</h4>
+                                <p>Statistik menunjukkan pentingnya detektor kebakaran di rumah:</p>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-4" data-aos="fade-up">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title highlight-text"><i class="fas fa-chart-pie me-2"></i>Fakta Kebakaran</h5>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-home"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>80% Kematian</h6>
+                                                        <p class="text-muted">Terjadi di rumah tanpa detektor kebakaran</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-clock"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>3 Menit</h6>
+                                                        <p class="text-muted">Api dapat membesar dalam waktu singkat</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-bed"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>50% Kasus</h6>
+                                                        <p class="text-muted">Terjadi saat penghuni sedang tidur</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title highlight-text"><i class="fas fa-shield-alt me-2"></i>Manfaat FireGuard</h5>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-heartbeat"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Peringatan Dini</h6>
+                                                        <p class="text-muted">Memberi waktu untuk evakuasi</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-money-bill-wave"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Proteksi Aset</h6>
+                                                        <p class="text-muted">Mencegah kerugian material</p>
+                                                    </div>
+                                                </div>
+                                                <div class="benefit-item">
+                                                    <div class="benefit-icon">
+                                                        <i class="fas fa-user-shield"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6>Perlindungan Keluarga</h6>
+                                                        <p class="text-muted">Keamanan untuk orang tercinta</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="py-5 bg-light" id="kontak">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-5 fw-bold mb-3 highlight-text">Siap Melindungi Keluarga Anda?</h2>
+                    <p class="lead">Hubungi kami untuk pemesanan atau informasi lebih lanjut</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-lg-5">
+                            <form id="mainContactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Pesan</label>
+                                    <textarea class="form-control" id="message" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-custom w-100">Kirim Pesan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <a href="index.html" class="nav-next-btn" id="navNextBtn">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up">
+                    <h5 class="mb-4"><i class="fas fa-fire-extinguisher me-2"></i>Pendeteksi Kebakaran</h5>
+                    <p>Sistem pendeteksi kebakaran cerdas yang memberikan peringatan dini untuk melindungi rumah dan keluarga Anda.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h5 class="mb-4">Tautan</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">Beranda</a></li>
+                        <li class="mb-2"><a href="#tentang" class="text-white">Tentang</a></li>
+                        <li class="mb-2"><a href="#fitur" class="text-white">Fitur</a></li>
+                        <li class="mb-2"><a href="#cara-kerja" class="text-white">Cara Kerja</a></li>
+                        <li class="mb-2"><a href="#pentingnya" class="text-white">Pentingnya</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h5 class="mb-4">Kontak Kami</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. RA Kartini</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (021) 1234-5678</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> Technovator@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <h5 class="mb-4">Media Sosial</h5>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/karasatech?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; Technovator</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Made with <i class="fas fa-heart text-danger"></i> for your safety</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        window.onscroll = function() {scrollProgress()};
+        
+        function scrollProgress() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+            
+            const backToTop = document.getElementById('backToTop');
+            if (winScroll > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        }
+        
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        const formToggleBtn = document.getElementById('formToggleBtn');
+        const compactForm = document.getElementById('compactForm');
+        const formHeader = document.getElementById('formHeader');
+        
+        formToggleBtn.addEventListener('click', function() {
+            compactForm.classList.toggle('active');
+            formToggleBtn.classList.toggle('active');
+        });
+        
+        formHeader.addEventListener('click', function() {
+            compactForm.classList.remove('active');
+            formToggleBtn.classList.remove('active');
+        });
+        
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Terima kasih! Pesan Anda telah terkirim. Kami akan segera menghubungi Anda.');
+                this.reset();
+                
+                if (form.id === 'contactForm') {
+                    compactForm.classList.remove('active');
+                    formToggleBtn.classList.remove('active');
+                }
+            });
+        });
+        
+        function createFireParticles() {
+            const container = document.getElementById('fire-particles-container');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('fire-particle');
+                
+                const size = Math.random() * 15 + 5;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                const opacity = Math.random() * 0.5 + 0.3;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `-${size}px`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `floating ${duration}s linear ${delay}s infinite`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createFireParticles();
+            
+            const buttons = document.querySelectorAll('.btn, .social-icon, .feature-box');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
